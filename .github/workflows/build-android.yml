@@ -34,6 +34,11 @@ jobs:
           text = source.read_text()
           text = text.replace("        buildList {\n            for (i in 0 until minOf(array.length(), 100)) {", "        return buildList {\n            for (i in 0 until minOf(array.length(), 100)) {")
           source.write_text(text)
+          library = Path("music_one/app/src/main/java/com/musicone/app/LibraryData.kt")
+          text = library.read_text()
+          text = text.replace("    private fun List<SavedTrack>.toJson()", '    @JvmName("savedTracksToJson")\n    private fun List<SavedTrack>.toJson()')
+          text = text.replace("    private fun List<MusicPlaylist>.toJson()", '    @JvmName("playlistsToJson")\n    private fun List<MusicPlaylist>.toJson()')
+          library.write_text(text)
           PY
       - name: Align Java and Kotlin JVM targets
         run: |
